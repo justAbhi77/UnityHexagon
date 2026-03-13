@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed084450958c4246916022e729fbf661, type: 3}
+  m_Name: GridConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Script.GridGen.GridConfig
+  gridSize: 3
+  gridTileSize: {x: 115, y: 100, z: 10}
+  tileMeshSize: {x: 115, y: 100, z: 10}
+  settlementMeshSize: {x: 25, y: 25, z: 3}
+  roadMeshSizeY: 5
+  gridTilesClass: {fileID: 3078742563873481637, guid: 5bdf4a55a3c72ae41b06d49d6e14a5c4, type: 3}
+  settlementTileClass: {fileID: 8043538104299789970, guid: 1b815aadfae50ec4c969afaf38b30b08, type: 3}
+  roadTileClass: {fileID: 5827201862299142584, guid: 09b1f34fc76b9df46bf65919ec5bdcde, type: 3}
