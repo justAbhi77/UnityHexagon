@@ -162,3 +162,4 @@ MonoBehaviour:
   tileType: 0
   diceNumber: 0
   owningPlayerIndex: -1
+  meshRenderer: {fileID: 4819486258723191147}

@@ -163,5 +163,93 @@ namespace Script.GridGen.Math
                 outSpawnTiles[midPoint] = roadObj;
             }
         }
+
+        public static bool TraceMouseToGrid(Camera camera, Vector3 gridCenterLocation, out Vector3 intersection)
+        {
+            intersection = Vector3.zero;
+
+            if (camera == null)
+                return false;
+
+            // Ray from mouse position
+            var ray = camera.ScreenPointToRay(Input.mousePosition);
+
+            // Grid plane (XY plane at grid center Z)
+            var gridPlane = new Plane(Vector3.up, gridCenterLocation);
+
+            if (!gridPlane.Raycast(ray, out var distance))
+                return false;
+
+            intersection = ray.GetPoint(distance);
+            return true;
+        }
+
+        public static GridHitResult GetGridHitResult(Vector3 intersection, Vector3 gridBottomLeft, Vector2 tileDiv)
+        {
+            var result = new GridHitResult();
+
+            var gridLocal = intersection - gridBottomLeft;
+            var gridSpace = Vector3.Scale(gridLocal, new Vector3(1f, 2f, 1f));
+
+            var tileIndexContinuous = new Vector2(gridSpace.x, gridSpace.y) / tileDiv;
+
+            Vector2 unsnapped;
+            unsnapped.x = tileIndexContinuous.x + 2.3f / 6f;
+            unsnapped.y = (tileIndexContinuous.y / 2f) * 12f;
+
+            Vector2 snapped;
+
+            var bucketX = Mathf.FloorToInt((tileIndexContinuous.x + 2.3f) / 6.0f);
+            snapped.x = bucketX * 6;
+
+            if (bucketX % 2 == 0)
+            {
+                snapped.y = Mathf.RoundToInt(tileIndexContinuous.y / 2f) * 12f;
+            }
+            else
+            {
+                snapped.y = Mathf.FloorToInt(tileIndexContinuous.y / 2f) * 12f + 6f;
+            }
+
+            var closestDist = (unsnapped - snapped).sqrMagnitude;
+
+            result.SnapType = GridTileSnapType.Tile;
+            result.ClosestIndex = new Vector2Int((int)snapped.x, (int)snapped.y);
+
+            GetHexagonVertices(result.ClosestIndex, out var vertices);
+            GetHexagonEdges(result.ClosestIndex, out var edges);
+
+            for (var i = 0; i < vertices.Count; i++)
+            {
+                var vDist = (unsnapped - vertices[i]).sqrMagnitude;
+                if (vDist < closestDist)
+                {
+                    closestDist = vDist;
+                    result.SnapType = GridTileSnapType.Vertex;
+                    result.ClosestIndex = vertices[i];
+                }
+
+                var eDist = (unsnapped - edges[i]).sqrMagnitude;
+                if (!(eDist < closestDist)) continue;
+                closestDist = eDist;
+                result.SnapType = GridTileSnapType.Edge;
+                result.ClosestIndex = edges[i];
+            }
+
+            return result;
+        }
+    }
+
+    public enum GridTileSnapType
+    {
+        Tile,
+        Vertex,
+        Edge
+    }
+
+    public struct GridHitResult
+    {
+        public GridTileSnapType SnapType;
+        public Vector2Int ClosestIndex;
     }
 }

@@ -94,7 +94,7 @@ namespace Script.GridGen
                     tile.tileCoordinates = tileIndex;
                     tile.tileType = tileTypes[tileTypeIndex % tileTypes.Count];
                     tile.diceNumber = tileDiceNumbers[tileTypeIndex];
-                    tile.tileColor = gridConfig.TileTypeColor[tile.tileType];
+                    tile.startTileColor = gridConfig.TileTypeColor[tile.tileType];
 
                     SpawnedHexTiles[tileIndex] = tile;
 

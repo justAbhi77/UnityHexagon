@@ -50,6 +50,7 @@ MonoBehaviour:
   tileType: 0
   diceNumber: 0
   owningPlayerIndex: -1
+  meshRenderer: {fileID: 2913529441959618156}
 --- !u!1001 &4589020920144181992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,6 +100,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: daf0bdaaf83476247b4c036814e6b4a8, type: 3}
+--- !u!23 &2913529441959618156 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: daf0bdaaf83476247b4c036814e6b4a8, type: 3}
+  m_PrefabInstance: {fileID: 4589020920144181992}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4045854571090337027 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: daf0bdaaf83476247b4c036814e6b4a8, type: 3}
