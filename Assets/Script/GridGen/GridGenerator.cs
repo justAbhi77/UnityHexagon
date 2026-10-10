@@ -13,7 +13,7 @@ namespace Script.GridGen
         public Vector2 tileDiv;
         public Vector3 snapGrid, gridCenterLocation, gridBottomLeftLocation;
 
-        public readonly Dictionary<Vector2Int, GridTiles> SpawnedHexTiles = new();
+        public readonly Dictionary<Vector2Int, GridTiles> SpawnedGridTiles = new();
 
         private IEnumerator Start()
         {
@@ -23,8 +23,10 @@ namespace Script.GridGen
             tileDiv = GridMath.CalculateTileDiv(tileSize);
 
             gridCenterLocation = GridMath.SnapVectorToVector(transform.position, tileSize);
+            gridConfig.gridCenterLocation = gridCenterLocation;
 
             gridBottomLeftLocation = GridMath.CalculateGridBottomLeft(gridCenterLocation, gridConfig.GetGridTileCount(), tileSize);
+            gridConfig.gridBottomLeftLocation = gridBottomLeftLocation;
 
             var gridGenSeed = Random.Range(0, 10);
             yield return null;
@@ -83,7 +85,7 @@ namespace Script.GridGen
 
                 var tileLocation = GridMath.TileIndexToWorld(tileIndex, gridBottomLeftLocation, tileSize);
 
-                if (!SpawnedHexTiles.TryGetValue(tileIndex, out var tile) || tile == null)
+                if (!SpawnedGridTiles.TryGetValue(tileIndex, out var tile) || tile == null)
                 {
                     var obj = Instantiate(gridConfig.gridTilesClass, tileLocation, Quaternion.identity);
                     obj.transform.SetParent(transform, true);
@@ -96,12 +98,12 @@ namespace Script.GridGen
                     tile.diceNumber = tileDiceNumbers[tileTypeIndex];
                     tile.startTileColor = gridConfig.TileTypeColor[tile.tileType];
 
-                    SpawnedHexTiles[tileIndex] = tile;
+                    SpawnedGridTiles[tileIndex] = tile;
 
                     tileTypeIndex++;
                 }
 
-                GridMath.SpawnVerticesAndEdges(tile.transform, tileIndex, gridBottomLeftLocation, tileSize, settlementScale, SpawnedHexTiles, gridConfig);
+                GridMath.SpawnVerticesAndEdges(tile.transform, tileIndex, gridBottomLeftLocation, tileSize, settlementScale, SpawnedGridTiles, gridConfig);
             }
         }
     }

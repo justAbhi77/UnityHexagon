@@ -172,7 +172,8 @@ namespace Script.GridGen.Math
                 return false;
 
             // Ray from mouse position
-            var ray = camera.ScreenPointToRay(Input.mousePosition);
+            var pos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+            var ray = camera.ScreenPointToRay(pos);
 
             // Grid plane (XY plane at grid center Z)
             var gridPlane = new Plane(Vector3.up, gridCenterLocation);
@@ -251,5 +252,10 @@ namespace Script.GridGen.Math
     {
         public GridTileSnapType SnapType;
         public Vector2Int ClosestIndex;
+
+        public override string ToString()
+        {
+            return SnapType + " " +  ClosestIndex;
+        }
     }
 }

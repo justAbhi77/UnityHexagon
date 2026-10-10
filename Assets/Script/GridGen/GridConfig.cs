@@ -117,5 +117,8 @@ namespace Script.GridGen
 
             return shuffledTiles;
         }
+
+        public Vector3 gridCenterLocation;
+        public Vector3 gridBottomLeftLocation;
     }
 }
